@@ -20,25 +20,24 @@ const mysqlClient = key => {
   return createMySQLClient({
     key,
     option: qconf
-  })
+  })()
 
   // or
-
   return createMySQLClient({
     master: ['127.0.0.1:3306'],
     slave: ['127.0.0.1:3306', '127.0.0.1:3306', '127.0.0.1:3306'],
     username: 'root',
     password: 'your@123',
     database: 'db',
-  }, key)
+  }, key)()
 }
 
 async function getTest() {
-  const defaultMySQL = mysqlClient('default')()
+  const defaultMySQL = mysqlClient('default')
 
   const sql = 'SELECT * FROM test_user LIMIT 0,10'
   const res = await defaultMySQL.query(sql).catch(err => {
-    console.error(err, { tips: 'test -> query error' })
+    console.error(err, { tips: 'query error' })
   })
 
   console.log(res)

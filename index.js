@@ -6,6 +6,7 @@ const { createCache } = require('./lib/interval-cache-store')
 function getMySQLPool(data, key) {
   let target = {}
   let cache = data.key
+  const interval = 1000 * (data.time || 60)
 
   if (!cache && key) {
     cache = key
@@ -18,10 +19,8 @@ function getMySQLPool(data, key) {
     target = data
   }
 
-  const config = getMysqlConfig(target, cache)
-  const interval = 1000 * (data.time || 60)
-
   const pool = createCache(`mysql-${cache}`, () => {
+    const config = getMysqlConfig(target, cache)
     const mysqlPool = createMysqlPool(config)
 
     setTimeout(() => {
@@ -90,7 +89,7 @@ function createPool({ host, port, user, password, database, connectionLimit }) {
 }
 
 function getMysqlConfig(data, cache) {
-  let target = data
+  let target = Object.assign({}, data)
   const pass = checkType(data.getMysqlConf, 'Function')
 
   if (pass) {
