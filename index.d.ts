@@ -1,24 +1,17 @@
 interface Config {
-  key?: string;
-  option: any;
-  time?: number;
+  key?: string
+  time?: number
+  option: any
 }
 
 interface MySQL {
-  master: {
-    host: string;
-    port: string;
-  };
-  slaves: {
-    host: string;
-    port: string;
-  }[];
-  username: string;
-  password: string;
-  database: any;
-  modelPath: any;
+  master: Array<string>
+  slave: Array<string>
+  username: string
+  password: string
+  database: string
 }
 
-declare function aiMysqlClient(config: Config | MySQL, cache?: string);
+declare function getMySQLPool(config: Config | MySQL, key?: string);
 
-export = aiMysqlClient
+export = getMySQLPool

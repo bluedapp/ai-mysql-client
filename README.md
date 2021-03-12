@@ -2,7 +2,7 @@
 
 [![npm version][npm-image]][npm-url]
 
-A mysql tools for nodejs and want to look for a girlfriend...
+A mysql client tools for nodejs and want to look for a girlfriend...
 
 ## Installation
 
@@ -13,12 +13,10 @@ $ npm i ai-mysql-client
 ## Example
 
 ``` js
-const mysqlClient = key => {
-  if (!(key in datum)) {
-    throw new Error( `Can not find the key: [${key}]` )
-  }
+import createMySQLClient from 'ai-mysql-client'
 
-  // use https://www.npmjs.com/package/@blued-core/qconf
+const mysqlClient = key => {
+  // https://www.npmjs.com/package/@blued-core/qconf
   return createMySQLClient({
     key,
     option: qconf
@@ -27,36 +25,25 @@ const mysqlClient = key => {
   // or
 
   return createMySQLClient({
-    master: {
-      host: '10.10.10.10',
-      port: '3306'
-    },
-    slaves: [{
-      host: '10.10.10.12',
-      port: '3306'
-    }],
-    username: 'test',
-    password: 'ELyutPt4yuiySfGRU',
-    database: 'activity',
-    modelPath: ''
+    master: ['127.0.0.1:3306'],
+    slave: ['127.0.0.1:3306', '127.0.0.1:3306', '127.0.0.1:3306'],
+    username: 'root',
+    password: 'your@123',
+    database: 'db',
   }, key)
 }
 
 async function getTest() {
-  const activityMySQL = mysqlClient('activityMySQL')()
+  const defaultMySQL = mysqlClient('default')()
 
-  const sql = `SELECT uid FROM test limit 0 ,10`
-  const data = await activityMySQL.query(sql).catch(err => {
-    console.error(err, {
-      tips: 'test -> query error'
-    })
+  const sql = 'SELECT * FROM test_user LIMIT 0,10'
+  const res = await defaultMySQL.query(sql).catch(err => {
+    console.error(err, { tips: 'test -> query error' })
   })
 
-  console.log({
-    notice: data
-  })
+  console.log(res)
 
-  return data
+  return res
 }
 ```
 
@@ -65,26 +52,19 @@ async function getTest() {
 ``` js
 // options
 interface Config {
-  key ? : string;
-  option: any;
-  time ? : number;
+  key?: string
+  time?: number
+  option: any
 }
 
 // or
 
 interface MySQL {
-  master: {
-    host: string;
-    port: string;
-  };
-  slaves: {
-    host: string;
-    port: string;
-  } [];
-  username: string;
-  password: string;
-  database: any;
-  modelPath: any;
+  master: Array<string>
+  slave: Array<string>
+  username: string
+  password: string
+  database: string
 }
 ```
 
