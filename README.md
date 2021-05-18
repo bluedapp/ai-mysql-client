@@ -15,20 +15,27 @@ $ npm i ai-mysql-client
 ``` js
 import createMySQLClient from 'ai-mysql-client'
 
+// https://www.npmjs.com/package/@blued-core/qconf
+qconf.flag: isLocalPro ? 'production' : '',
+
 const mysqlClient = key => {
-  // https://www.npmjs.com/package/@blued-core/qconf
   return createMySQLClient({
     key,
-    option: qconf
+    option: qconf,
+    connections: 20,
+    time: 60,
   })()
 
   // or
+
   return createMySQLClient({
     master: ['127.0.0.1:3306'],
     slave: ['127.0.0.1:3306', '127.0.0.1:3306', '127.0.0.1:3306'],
     username: 'root',
     password: 'your@123',
-    database: 'db',
+    database: 'test',
+    time: 60,
+    connections: 20,
   }, key)()
 }
 
@@ -52,8 +59,9 @@ async function getTest() {
 // options
 interface Config {
   key?: string
-  time?: number
   option: any
+  connections?: number
+  time?: number
 }
 
 // or
@@ -64,6 +72,8 @@ interface MySQL {
   username: string
   password: string
   database: string
+  connections?: number
+  time?: number
 }
 ```
 

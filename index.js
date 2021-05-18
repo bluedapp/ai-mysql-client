@@ -8,6 +8,8 @@ function getMySQLPool(data, key) {
   let cache = data.key
   const interval = 1000 * (data.time || 60)
 
+  target.connections = data.connections || 20
+
   if (!cache && key) {
     cache = key
   }
@@ -39,10 +41,10 @@ function getMySQLPool(data, key) {
 
 function createMysqlPool(option) {
   const config = {
-    connectionLimit: 10,
     user: option.username,
     password: option.password,
     database: option.database,
+    connectionLimit: option.connections,
   }
 
   const master = Object.assign({
@@ -112,6 +114,8 @@ function getMysqlConfig(data, cache) {
       port: two[1],
     }
   }
+
+  target.connections = data.connections
 
   return target
 }

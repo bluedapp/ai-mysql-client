@@ -1,7 +1,8 @@
 interface Config {
   key?: string
-  time?: number
   option: any
+  connections?: number
+  time?: number
 }
 
 interface MySQL {
@@ -10,8 +11,10 @@ interface MySQL {
   username: string
   password: string
   database: string
+  connections?: number
+  time?: number
 }
 
-declare function getMySQLPool(config: Config | MySQL, key?: string);
+declare function aiMysqlClient(config: Config | MySQL, cache?: string)
 
-export = getMySQLPool
+export = aiMysqlClient
