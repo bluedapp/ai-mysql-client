@@ -3,6 +3,7 @@ interface Config {
   option: any
   connections?: number
   time?: number
+  close?: number
 }
 
 interface MySQL {
@@ -13,6 +14,7 @@ interface MySQL {
   database: string
   connections?: number
   time?: number
+  close?: number
 }
 
 declare function aiMysqlClient(config: Config | MySQL, cache?: string)

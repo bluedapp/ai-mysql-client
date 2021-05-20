@@ -6,6 +6,7 @@ const { createCache } = require('./lib/interval-cache-store')
 function getMySQLPool(data, key) {
   let target = {}
   let cache = data.key
+  const close = data.close || 2
   const interval = 1000 * (data.time || 60)
 
   target.connections = data.connections || 20
@@ -31,7 +32,7 @@ function getMySQLPool(data, key) {
       } catch (err) {
         console.error(`Close MySQL error → ${cache}, ${err}`)
       }
-    }, interval * 2)
+    }, interval * close)
 
     return mysqlPool
   }, interval)
