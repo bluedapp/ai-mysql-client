@@ -24,6 +24,7 @@ function getMySQLPool(data, key) {
 
   const pool = createCache(`mysql-${cache}`, () => {
     const config = getMysqlConfig(target, cache)
+    if (data.option.charset) Reflect.set(config, 'charset', data.option.charset)
     const mysqlPool = createMysqlPool(config)
 
     setTimeout(() => {
@@ -47,6 +48,7 @@ function createMysqlPool(option) {
     database: option.database,
     connectionLimit: option.connections,
   }
+  if (option.charset) Reflect.set(config, 'charset', option.charset)
 
   const master = Object.assign({
     host: option.master.host,
@@ -76,18 +78,18 @@ function createMysqlPool(option) {
   }
 }
 
-function createPool({ host, port, user, password, database, connectionLimit }) {
-  const pool = mysql.createPool({
+function createPool({ host, port, user, password, database, connectionLimit, charset }) {
+  const config = {
     host,
     port,
     user,
     password,
     database,
     connectionLimit,
-  })
-
+  }
+  if (charset) Reflect.set(config, 'charset', charset)
+  const pool = mysql.createPool(config)
   pool.query = promisify(pool.query)
-
   return pool
 }
 
