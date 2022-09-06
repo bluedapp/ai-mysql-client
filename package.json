@@ -1,6 +1,6 @@
 {
   "name": "ai-mysql-client",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A mysql tools for nodejs and want to look for a girlfriend...",
   "main": "index.js",
   "types": "index.d.ts",
